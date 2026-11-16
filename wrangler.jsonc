@@ -5,6 +5,7 @@
   "workers_dev": true,
   "preview_urls": false,
   "main": "worker.mjs",
+  "build": { "command": "npm run build" },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
