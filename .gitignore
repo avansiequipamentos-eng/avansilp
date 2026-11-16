@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars*
+.env*
+preview-offline/
+assets/videos/Produçao.mp4
+assets/videos/Aradinhoemacao.mp4
+assets/Catalogo_Avansi_Equipamentos_2026.pdf

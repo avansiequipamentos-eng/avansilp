@@ -1,0 +1,13 @@
+{
+  "name": "avansilp",
+  "account_id": "30439c32c9bf66da23eaf4023cfd7d54",
+  "compatibility_date": "2026-11-15",
+  "workers_dev": true,
+  "preview_urls": false,
+  "main": "worker.mjs",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/assets/*.mp4"]
+  }
+}

@@ -1,0 +1,3 @@
+# Keep the approved files byte-for-byte across Windows and Cloudflare Builds.
+* -text
+*.pdf binary
