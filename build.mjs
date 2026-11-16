@@ -5,7 +5,10 @@ import { runInNewContext } from 'node:vm';
 
 const output = new URL('./dist/', import.meta.url);
 const maxBytes = 25 * 1024 * 1024;
-const entryFiles = ['index.html', 'styles.css', 'hero.css', 'app.js', 'content.js', 'hero.js'];
+const entryFiles = [
+  'index.html', 'styles.css', 'hero.css', 'app.js', 'content.js', 'hero.js',
+  'robots.txt', 'sitemap.xml'
+];
 const html = await readFile(new URL('./index.html', import.meta.url), 'utf8');
 const context = { window: {} };
 runInNewContext(await readFile(new URL('./content.js', import.meta.url), 'utf8'), context);
@@ -14,6 +17,10 @@ const paths = new Set(entryFiles);
 for (const [, path] of html.matchAll(/\b(?:href|src|poster)="(assets\/[^"]+)"/g)) {
   paths.add(path.split('?')[0]);
 }
+const canonical = new URL(html.match(/<link rel="canonical" href="([^"]+)"/)?.[1]);
+const shareImage = new URL(html.match(/<meta property="og:image" content="([^"]+)"/)?.[1]);
+if (shareImage.origin !== canonical.origin) throw new Error('Imagem de compartilhamento fora do site');
+paths.add(shareImage.pathname.slice(1));
 for (const item of context.window.AVANSI_CONTENT.equipment) {
   for (const path of [item.image, item.hero?.image, item.hero?.poster, item.hero?.video,
     ...item.gallery.map(photo => photo.src)]) {

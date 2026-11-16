@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://avansilp.avansiequipamentos.workers.dev/sitemap.xml
