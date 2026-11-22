@@ -1,7 +1,11 @@
+import { receiveLead } from './leads.mjs';
+
 // Static Assets supplies the full representation. The Worker serves one byte range for MP4.
 export default {
-  async fetch(request, { ASSETS }) {
+  async fetch(request, env) {
     const path = new URL(request.url).pathname;
+    if (path === '/api/leads') return receiveLead(request, env);
+    const { ASSETS } = env;
     if (!path.startsWith('/assets/') || !path.endsWith('.mp4')) return ASSETS.fetch(request);
 
     const range = request.headers.get('Range');

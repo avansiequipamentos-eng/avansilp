@@ -6,9 +6,12 @@
   "preview_urls": false,
   "main": "worker.mjs",
   "build": { "command": "npm run build" },
+  "ratelimits": [
+    { "name": "LP_LEAD_LIMIT", "namespace_id": "491284", "simple": { "limit": 8, "period": 60 } }
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": ["/assets/*.mp4"]
+    "run_worker_first": ["/api/leads", "/assets/*.mp4"]
   }
 }

@@ -84,7 +84,7 @@ input::placeholder,textarea::placeholder{color:#667068;opacity:1}
 .section-aside{max-width:350px;justify-self:end;color:var(--muted)}
 .section-aside p{margin:0 0 16px}
 .catalog-line{margin-top:28px;border-bottom:1px solid var(--line)}
-.catalog-line summary,.disabled-form summary{margin-left:0}
+.catalog-line summary{margin-left:0}
 .catalog-line ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;margin:0;padding:0 0 18px;list-style:none}
 .catalog-line a{display:flex;align-items:center;min-height:44px;padding:8px 0;text-decoration:underline;text-underline-offset:.2em;overflow-wrap:anywhere}
 .demonstration-media{width:min(100%,330px);min-width:0;margin:0;justify-self:center;align-self:center}
@@ -103,9 +103,17 @@ input::placeholder,textarea::placeholder{color:#667068;opacity:1}
 .contact-form>select{margin-bottom:16px;text-overflow:ellipsis}
 .contact-form>.eyebrow{margin-bottom:14px}
 .contact-form .form-note{margin-bottom:0}
-.disabled-form{margin-top:20px;border-top:1px solid var(--line);border-bottom:0}
-.disabled-form summary{font-size:13px;padding:12px 0}
-.disabled-form form{padding-bottom:8px}
+.contact-additional{min-height:44px;display:inline-flex;align-items:center}
+.lead-form{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);position:relative}
+.lead-form legend{padding:0;margin:0 0 14px;font-size:16px;font-weight:700}
+.lead-form .button{width:100%}
+.lead-form fieldset:disabled .button{opacity:.7;cursor:wait;transform:none}
+.lead-trap{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.form-status{font-size:14px;line-height:1.5;margin:12px 0 0}
+.form-status:empty{margin:0}
+.form-status[data-state="success"],.form-status[data-state="error"]{padding:11px 12px;border-left:3px solid currentColor}
+.form-status[data-state="success"]{color:#21502e;background:#e7f0e3}
+.form-status[data-state="error"]{color:#8a2821;background:#faece8}
 @media(max-width:1000px){.section-aside{justify-self:start;max-width:560px}}
 @media(max-width:760px){
  .proof-grid,.catalog-line ul{grid-template-columns:1fr}

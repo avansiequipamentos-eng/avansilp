@@ -34,8 +34,10 @@ function updateCommercialLinks(){
  const message=product
   ? `Olá! Gostaria de informações sobre: ${product.title}.`
   : 'Olá! Gostaria de informações sobre os equipamentos AVANSI.';
- const url=`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;
- whatsappLinks.forEach(link=>{link.href=url;});
+ whatsappLinks.forEach(link=>{
+  const number=link.dataset.whatsapp==='additional' ? contact.additionalWhatsapp : contact.whatsapp;
+  link.href=`https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+ });
 }
 
 function selectInterest(id){
@@ -177,4 +179,60 @@ dialog.addEventListener('close',()=>{
  swipeStart=null;
  if(restoreDialogFocus&&dialogOpener?.isConnected)dialogOpener.focus({preventScroll:true});
 });
-document.querySelector('#contact-form').addEventListener('submit',event=>event.preventDefault());
+const leadForm=document.querySelector('#contact-form');
+const leadErrors={
+ fields:'Confira o nome e os demais campos antes de enviar.',
+ phone:'Informe um WhatsApp válido com DDD.',
+ size:'Reduza o tamanho da mensagem e tente novamente.',
+ rate:'Aguarde um minuto para tentar novamente.',
+ conflict:'Altere algum dado da consulta e tente enviá-la novamente.'
+};
+let pendingLead;
+let sendingLead=false;
+
+leadForm.addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(sendingLead)return;
+ const status=leadForm.querySelector('.form-status');
+ const fields=leadForm.querySelector('fieldset');
+ const button=leadForm.querySelector('button[type="submit"]');
+ const values=Object.fromEntries(new FormData(leadForm));
+ const fingerprint=JSON.stringify(values);
+ if(pendingLead?.fingerprint!==fingerprint)pendingLead={fingerprint,id:crypto.randomUUID()};
+
+ sendingLead=true;
+ fields.disabled=true;
+ interest.disabled=true;
+ button.textContent='Enviando…';
+ status.dataset.state='pending';
+ status.textContent='Enviando sua consulta.';
+ try{
+  const response=await fetch(leadForm.action,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({...values,id:pendingLead.id}),
+   signal:AbortSignal.timeout(12000)
+  });
+  const result=await response.json();
+  if(!response.ok||result.ok!==true){
+   status.dataset.state='error';
+   status.textContent=Object.hasOwn(leadErrors,result.code)
+    ? leadErrors[result.code]
+    : 'Não foi possível confirmar o envio. Tente novamente ou fale com a AVANSI pelo WhatsApp.';
+   return;
+  }
+  leadForm.reset();
+  selectInterest(values.equipamento);
+  pendingLead=undefined;
+  status.dataset.state='success';
+  status.textContent='Consulta enviada. A equipe AVANSI recebeu seus dados e pode responder pelo WhatsApp informado.';
+ }catch{
+  status.dataset.state='error';
+  status.textContent='Não foi possível confirmar o envio. Tente novamente ou fale com a AVANSI pelo WhatsApp.';
+ }finally{
+  fields.disabled=false;
+  interest.disabled=false;
+  sendingLead=false;
+  button.textContent='Enviar consulta';
+ }
+});

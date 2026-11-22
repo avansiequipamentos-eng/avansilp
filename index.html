@@ -130,7 +130,8 @@
    <p class="eyebrow">CONVERSE COM A AVANSI</p><h2>Vamos entender<br>a sua necessidade?</h2>
    <p>Escolha o equipamento e fale com o comercial para consultar aplicação, disponibilidade e orçamento.</p>
    <div class="contact-channel">
-    <strong>WhatsApp comercial</strong><a href="#contato" data-whatsapp data-phone target="_blank" rel="noopener">(44) 99711-3947</a>
+    <strong>WhatsApp comercial</strong><a href="https://wa.me/5544997113947" data-whatsapp data-phone target="_blank" rel="noopener">(44) 99711-3947</a>
+    <a class="contact-additional" href="https://wa.me/5544991283518" data-whatsapp="additional" target="_blank" rel="noopener">José Carlos — (44) 99128-3518</a>
     <a href="mailto:avansiequipamentos@gmail.com">avansiequipamentos@gmail.com</a>
     <span>Jesuítas – PR</span>
    </div>
@@ -138,22 +139,21 @@
   <div class="contact-form">
    <p class="eyebrow orange">CONSULTA COMERCIAL</p>
    <label for="equipment-interest">Equipamento de interesse</label>
-   <select id="equipment-interest"><option value="">Ainda não escolhi um equipamento</option></select>
+   <select id="equipment-interest" name="equipamento" form="contact-form"><option value="">Ainda não escolhi um equipamento</option></select>
    <a class="button" href="#contato" data-whatsapp target="_blank" rel="noopener">Conversar no WhatsApp ↗</a>
    <p class="form-note">A mensagem abre no WhatsApp para você revisar e enviar.</p>
-   <details class="disabled-form">
-    <summary>Formulário da prévia (desativado)</summary>
-    <form id="contact-form" aria-describedby="form-note">
-     <fieldset disabled>
-      <legend class="sr-only">Formulário desativado</legend>
-      <label>Nome<input name="nome" autocomplete="name" placeholder="Seu nome"></label>
-      <div class="form-row"><label>WhatsApp<input name="telefone" type="tel" autocomplete="tel" placeholder="DDD + número"></label><label>Cidade / UF<input name="cidade" autocomplete="address-level2" placeholder="Sua localização"></label></div>
-      <label>Mensagem<textarea name="mensagem" rows="3" placeholder="Conte o que você precisa"></textarea></label>
-      <button class="button form-disabled" type="submit" disabled>Enviar</button>
-     </fieldset>
-     <p class="form-note" id="form-note">Os campos do formulário estão desativados.</p>
-    </form>
-   </details>
+   <form id="contact-form" class="lead-form" action="/api/leads" method="post" aria-describedby="form-note">
+    <fieldset>
+     <legend>Enviar uma consulta</legend>
+     <label>Nome<input name="nome" autocomplete="name" minlength="2" maxlength="120" placeholder="Seu nome" required></label>
+     <div class="form-row"><label>WhatsApp<input name="telefone" type="tel" autocomplete="tel" maxlength="25" placeholder="DDD + número" required></label><label>Cidade / UF<input name="cidade" autocomplete="address-level2" maxlength="120" placeholder="Sua localização"></label></div>
+     <label>Mensagem<textarea name="mensagem" rows="3" maxlength="1500" placeholder="Conte o que você precisa"></textarea></label>
+     <div class="lead-trap" aria-hidden="true"><label>Deixe este campo em branco<input name="website" tabindex="-1" autocomplete="off" maxlength="120"></label></div>
+     <button class="button" type="submit">Enviar consulta</button>
+    </fieldset>
+    <p class="form-note" id="form-note">A AVANSI usará os dados desta consulta para responder pelo WhatsApp informado.</p>
+    <p class="form-status" role="status"></p>
+   </form>
   </div>
  </section>
 </main>

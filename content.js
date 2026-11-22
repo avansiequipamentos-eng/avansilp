@@ -1,5 +1,5 @@
 // Destaques e linha de equipamentos conforme o catálogo AVANSI 2026.
-window.AVANSI_CONTENT = {
+(typeof window === 'undefined' ? globalThis : window).AVANSI_CONTENT = {
  // Vídeos usam sua duração real. O tempo provisório só serve de fallback.
  hero: {durationMs:10000, transitionMs:500, autoplay:true},
  equipment: [
@@ -39,6 +39,6 @@ window.AVANSI_CONTENT = {
   {id:'batedor-av1500', title:'Batedor de Cama Tratorizado AV1500'},
   {id:'ferri-agrobot', title:'Robô Mexedor de Cama Ferri Agrobot (Versão Controle)'}
  ],
- contact: {whatsapp:'5544997113947'},
+ contact: {whatsapp:'5544997113947', additionalWhatsapp:'5544991283518'},
  stage:'local-catalog-review'
 };
