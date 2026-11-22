@@ -52,6 +52,7 @@ test('rejects cross-origin, invalid, honeypot, oversized and rate-limited submis
 test('forwards normalized lead once per request with its original ID and reports CRM failures', async (t) => {
   const saved = t.mock.method(globalThis, 'fetch', async (url, init) => {
     assert.match(url, /supabase\.co\/rest\/v1\/rpc\/receive_avansi_lp_lead$/);
+    assert.equal(init.redirect, 'manual');
     assert.equal(init.headers['x-avansi-lp-secret'], 'fixture-test');
     const payload = JSON.parse(init.body);
     assert.deepEqual(payload, {
@@ -71,6 +72,8 @@ test('forwards normalized lead once per request with its original ID and reports
   assert.deepEqual(await failed.json(), { ok: false, code: 'unavailable' });
   saved.mock.mockImplementation(async () => Response.json({}, { status: 409 }));
   assert.equal((await formRequest(fixture)).status, 409);
+  saved.mock.mockImplementation(async () => Response.redirect('https://another.example/'));
+  assert.equal((await formRequest(fixture)).status, 502);
 });
 
 async function request(headers = {}, { method = 'GET', contentLength = true } = {}) {

@@ -82,7 +82,7 @@ export async function receiveLead(request, env) {
   try {
     const saved = await fetch(`${supabase}/rest/v1/rpc/receive_avansi_lp_lead`, {
       method: 'POST',
-      redirect: 'error',
+      redirect: 'manual',
       signal: AbortSignal.timeout(8000),
       headers: {
         'Content-Type': 'application/json',
